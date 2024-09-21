@@ -28,4 +28,20 @@ router.post(
     }
 )
 
+router.get(
+    "/lista",
+    async(req, res) => {
+        const conn = await OpenConnection()
+        try {
+            const query = await conn.query(`SELECT * FROM usuario;`)
+            res.status(200).json({usuarios: query["rows"]})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: error })
+        } finally {
+            CloseConnection(conn)
+        }
+    }
+)
+
 module.exports = router
