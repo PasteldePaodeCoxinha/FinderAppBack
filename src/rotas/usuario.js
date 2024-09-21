@@ -16,7 +16,7 @@ router.post(
         const descricao = req.body.descricao
 
         try {
-            const query = await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao) 
+            await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao) 
                 VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}')`)
             res.status(200).json({msg: "Cadastrado"})
         } catch (error) {
