@@ -1,6 +1,10 @@
 # API do projeto FinderApp
 
-# USUARIO
+## SUMARIO
+* [USUARIO](#usuario)
+* [GOSTO](#gosto)
+
+# USUARIO <span id="usuario"></span>
 
 ## Cadastro
 
@@ -59,6 +63,38 @@ RETORNOS:
         "escolaridade": string,
         "descricao": string,
         "imgperfil": string -> (null por enquanto)
+      },
+      ...
+  ]
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+# GOSTO <span id="gosto"></span>
+
+## LISTA
+
+### GET - ROTA: "/gosto/lista"
+
+REQUISIÇÃO:
+```
+none
+```
+
+RETORNOS:
+* 200
+```
+{
+  "gostos": [
+      {
+        "id": int,
+        "nome": string,
       },
       ...
   ]
