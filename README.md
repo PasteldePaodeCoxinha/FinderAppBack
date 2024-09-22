@@ -3,6 +3,7 @@
 ## SUMARIO
 * [USUARIO](#usuario)
 * [GOSTO](#gosto)
+* [INTERESSE](#interesse)
 
 # USUARIO <span id="usuario"></span>
 
@@ -92,6 +93,38 @@ RETORNOS:
 ```
 {
   "gostos": [
+      {
+        "id": int,
+        "nome": string,
+      },
+      ...
+  ]
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+# INTERESSE <span id="intesse"></span>
+
+## LISTA
+
+### GET - ROTA: "/interesse/lista"
+
+REQUISIÇÃO:
+```
+none
+```
+
+RETORNOS:
+* 200
+```
+{
+  "interesses": [
       {
         "id": int,
         "nome": string,
