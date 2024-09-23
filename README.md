@@ -29,7 +29,37 @@ RETORNOS:
 * 200
 ```
 {
+  "id": int,
   "msg": "Cadastrado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+## Associar um interesse/gosto a um usuario
+
+### POST - ROTA: "/usuario/associarInteGos"
+
+REQUISIÇÃO:
+
+```
+{
+  "usuario": int,
+  "gostos": [string, string, ...],
+  "interesses": [string, string, ...]
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Associado"
 }
 ```
 
