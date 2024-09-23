@@ -20,7 +20,10 @@ router.post(
         try {
             await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao) 
                 VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}')`)
-            res.status(200).json({ msg: "Cadastrado" })
+            
+            const idUsuario = await conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`)
+            
+            res.status(200).json({id: idUsuario, msg: "Cadastrado" })
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: error })
