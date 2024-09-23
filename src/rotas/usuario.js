@@ -80,7 +80,7 @@ router.post(
 )
 
 //
-// GERT
+// GET
 router.get(
     "/lista",
     async (req, res) => {
@@ -91,6 +91,32 @@ router.get(
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: error })
+        } finally {
+            CloseConnection(conn)
+        }
+    }
+)
+
+router.get(
+    "/login",
+    async(req, res) => {
+        const conn = await OpenConnection()
+
+        const email = req.query.email
+        const senha = req.query.senha
+
+        try {   
+            const queRes = await conn.query(`SELECT id FROM usuario WHERE email='${email}' AND senha='${senha}'`)
+            const usuario = queRes["rows"]
+
+            if (usuario.length <= 0) {
+                res.status(404).json({msg: "Email ou Login incorretos"})
+            } else if (usuario.length === 1) {
+                res.status(200).json({idUsuario: usuario[0].id, msg: "Usuário encontrado"})
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({msg: error})
         } finally {
             CloseConnection(conn)
         }
