@@ -23,10 +23,10 @@ router.post(
 
             const idUsuario = await conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`)
 
-            res.status(200).json({ id: idUsuario, msg: "Cadastrado" })
+            res.status(200).json({ id: idUsuario["rows"], msg: "Cadastrado" })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error })
+            res.status(500).json({ msg: error.message })
         } finally {
             CloseConnection(conn)
         }
@@ -72,7 +72,7 @@ router.post(
             res.status(200).json({ msg: "Associado" })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error })
+            res.status(500).json({ msg: error.message })
         } finally {
             CloseConnection(conn)
         }
@@ -105,7 +105,7 @@ router.post(
                 res.status(200).json({ msg: "Usuario editado" })
             } catch (error) {
                 console.log(error);
-                res.status(500).json({ msg: error })
+                res.status(500).json({ msg: error.message })
             } finally {
                 CloseConnection(conn)
             }
@@ -124,7 +124,7 @@ router.get(
             res.status(200).json({ usuarios: query["rows"] })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error })
+            res.status(500).json({ msg: error.message })
         } finally {
             CloseConnection(conn)
         }
@@ -150,7 +150,7 @@ router.get(
             }
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error })
+            res.status(500).json({ msg: error.message })
         } finally {
             CloseConnection(conn)
         }

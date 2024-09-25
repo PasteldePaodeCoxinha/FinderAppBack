@@ -12,7 +12,7 @@ router.get(
             res.status(200).json({interesses: query["rows"]})
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error })
+            res.status(500).json({ msg: error.message })
         } finally {
             CloseConnection(conn)
         }
