@@ -97,12 +97,16 @@ router.post(
 
         const queryFormated = query.join(",")
 
-        try {
-            await conn.query(`UPDATE usuario SET ${queryFormated} WHERE id = ${id}`)
-            res.status(200).json({ msg: "usuario editado" })
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ msg: error })
+        if (!queryFormated) {
+            res.status(400).json({ msg: "Nenhum valor enviado para edição" })
+        } else {
+            try {
+                await conn.query(`UPDATE usuario SET ${queryFormated} WHERE id = ${id}`)
+                res.status(200).json({ msg: "usuario editado" })
+            } catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: error })
+            }
         }
     }
 )
