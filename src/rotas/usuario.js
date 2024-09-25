@@ -20,10 +20,10 @@ router.post(
         try {
             await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao) 
                 VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}')`)
-            
+
             const idUsuario = await conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`)
-            
-            res.status(200).json({id: idUsuario, msg: "Cadastrado" })
+
+            res.status(200).json({ id: idUsuario, msg: "Cadastrado" })
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: error })
@@ -41,7 +41,7 @@ router.post(
         const usuario = req.body.usuario
         const gostos = req.body.gostos
         const interesses = req.body.interesses
-        
+
         try {
             let gostosIds = []
             let intereIds = []
@@ -69,12 +69,40 @@ router.post(
                 await conn.query(`INSERT INTO interesseUsuario(usuario_id, interesse_id) VALUES ${query};`)
             }
 
-            res.status(200).json({msg: "Associado"})
+            res.status(200).json({ msg: "Associado" })
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: error })
         } finally {
             CloseConnection(conn)
+        }
+    }
+)
+
+router.post(
+    "/editar",
+    async (req, res) => {
+        const conn = await OpenConnection()
+
+        let query = []
+        let id = 0
+
+        for (const [k, v] of Object.entries(req.body)) {
+            if (k == "id") {
+                id = v
+            } else {
+                query.push(`${k} = '${v}'`)
+            }
+        }
+
+        const queryFormated = query.join(",")
+
+        try {
+            await conn.query(`UPDATE usuario SET ${queryFormated} WHERE id = ${id}`)
+            res.status(200).json({ msg: "foi" })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: error })
         }
     }
 )
@@ -99,24 +127,24 @@ router.get(
 
 router.get(
     "/login",
-    async(req, res) => {
+    async (req, res) => {
         const conn = await OpenConnection()
 
         const email = req.query.email
         const senha = req.query.senha
 
-        try {   
+        try {
             const queRes = await conn.query(`SELECT id FROM usuario WHERE email='${email}' AND senha='${senha}'`)
             const usuario = queRes["rows"]
 
             if (usuario.length <= 0) {
-                res.status(404).json({msg: "Email ou Senha incorretos"})
+                res.status(404).json({ msg: "Email ou Senha incorretos" })
             } else if (usuario.length === 1) {
-                res.status(200).json({idUsuario: usuario[0].id, msg: "Usuário encontrado"})
+                res.status(200).json({ idUsuario: usuario[0].id, msg: "Usuário encontrado" })
             }
         } catch (error) {
             console.log(error);
-            res.status(500).json({msg: error})
+            res.status(500).json({ msg: error })
         } finally {
             CloseConnection(conn)
         }
