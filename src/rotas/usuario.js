@@ -110,7 +110,7 @@ router.get(
             const usuario = queRes["rows"]
 
             if (usuario.length <= 0) {
-                res.status(404).json({msg: "Email ou Login incorretos"})
+                res.status(404).json({msg: "Email ou Senha incorretos"})
             } else if (usuario.length === 1) {
                 res.status(200).json({idUsuario: usuario[0].id, msg: "Usuário encontrado"})
             }

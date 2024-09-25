@@ -107,6 +107,38 @@ RETORNOS:
 }
 ```
 
+## LOGIN
+
+### GET - ROTA: "/usuario/login"
+
+REQUISIÇÃO:
+```
+/usuario/login?email={string}&senha={string}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "idUsuario": int,
+  "msg": "Usuário encontrado"
+}
+```
+
+* 404
+```
+{
+  "msg": "Email ou Senha incorretos"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
 # GOSTO <span id="gosto"></span>
 
 ## LISTA
