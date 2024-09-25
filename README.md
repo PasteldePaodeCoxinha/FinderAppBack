@@ -41,6 +41,41 @@ RETORNOS:
 }
 ```
 
+## Editar
+
+### POST - ROTA: "/usuario/editar"
+
+REQUISIÇÃO:
+
+```
+{
+  "id": string,
+  "nome": string,
+  "email": string,
+  "senha": string,
+  "datanascimento": string - (yyyy-mm-dd),
+  "profissao": string,
+  "escolaridade": string,
+  "descricao": string
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "id": int,
+  "msg": "Cadastrado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
 ## Associar um interesse/gosto a um usuario
 
 ### POST - ROTA: "/usuario/associarInteGos"
