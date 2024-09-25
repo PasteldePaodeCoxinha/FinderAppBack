@@ -102,7 +102,7 @@ router.post(
         } else {
             try {
                 await conn.query(`UPDATE usuario SET ${queryFormated} WHERE id = ${id}`)
-                res.status(200).json({ msg: "usuario editado" })
+                res.status(200).json({ msg: "Usuario editado" })
             } catch (error) {
                 console.log(error);
                 res.status(500).json({ msg: error })

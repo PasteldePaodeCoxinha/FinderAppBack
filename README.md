@@ -64,8 +64,14 @@ RETORNOS:
 * 200
 ```
 {
-  "id": int,
-  "msg": "Cadastrado"
+  "msg": "Usuario editado"
+}
+```
+
+* 400
+```
+{
+  "msg": "Nenhum valor enviado para edição"
 }
 ```
 
