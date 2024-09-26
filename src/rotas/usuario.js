@@ -19,7 +19,7 @@ router.post(
         const imgperfil = req.body.imgperfil
 
         try {
-            await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao) 
+            await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao, imgperfil) 
                 VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}', '${imgperfil}')`)
 
             const idUsuario = await conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`)
