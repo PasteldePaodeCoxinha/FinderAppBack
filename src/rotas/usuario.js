@@ -16,10 +16,11 @@ router.post(
         const profissao = req.body.profissao
         const escolaridade = req.body.escolaridade
         const descricao = req.body.descricao
+        const imgperfil = req.body.imgperfil
 
         try {
             await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao) 
-                VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}')`)
+                VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}', '${imgperfil}')`)
 
             const idUsuario = await conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`)
 

@@ -21,7 +21,8 @@ REQUISIÇÃO:
   "datanascimento": string - (yyyy-mm-dd),
   "profissao": string,
   "escolaridade": string,
-  "descricao": string
+  "descricao": string,
+  "imgperfil": string
 }
 ```
 
@@ -134,7 +135,7 @@ RETORNOS:
         "profissao": string,
         "escolaridade": string,
         "descricao": string,
-        "imgperfil": string -> (null por enquanto)
+        "imgperfil": string
       },
       ...
   ]
