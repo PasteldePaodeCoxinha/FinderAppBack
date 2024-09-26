@@ -9,6 +9,8 @@ router.post(
     async (req, res) => {
         const conn = await OpenConnection()
 
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        
         console.log(req.body);
 
         const nome = req.body.nome
