@@ -50,7 +50,7 @@ REQUISIÇÃO:
 
 ```
 {
-  "id": string,
+  "id": string, /* OBRIGATORIO
   "nome": string,
   "email": string,
   "senha": string,

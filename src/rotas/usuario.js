@@ -24,7 +24,7 @@ router.post(
 
             const idUsuario = await conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`)
 
-            res.status(200).json({ id: idUsuario["rows"], msg: "Cadastrado" })
+            res.status(200).json({ id: idUsuario["rows"][0].id, msg: "Cadastrado" })
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: error.message })
