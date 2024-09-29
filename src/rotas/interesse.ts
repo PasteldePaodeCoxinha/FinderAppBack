@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
-const {OpenConnection, CloseConnection} = require("../config/database")
+import { OpenConnection, CloseConnection } from "../config/database"
 
 
 router.get(
@@ -12,7 +12,7 @@ router.get(
             res.status(200).json({interesses: query["rows"]})
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error.message })
+            res.status(500).json({ msg: (error as Error).message })
         } finally {
             CloseConnection(conn)
         }

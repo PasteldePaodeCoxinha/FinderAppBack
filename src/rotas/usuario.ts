@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
-const { OpenConnection, CloseConnection } = require("../config/database")
+import { OpenConnection, CloseConnection } from "../config/database"
 
 //
 // POST
@@ -27,7 +27,7 @@ router.post(
             res.status(200).json({ id: idUsuario["rows"][0].id, msg: "Cadastrado" })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error.message })
+            res.status(500).json({ msg: (error as Error).message })
         } finally {
             CloseConnection(conn)
         }
@@ -73,7 +73,7 @@ router.post(
             res.status(200).json({ msg: "Associado" })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error.message })
+            res.status(500).json({ msg: (error as Error).message })
         } finally {
             CloseConnection(conn)
         }
@@ -90,7 +90,7 @@ router.post(
 
         for (const [k, v] of Object.entries(req.body)) {
             if (k == "id") {
-                id = v
+                id = v as number
             } else {
                 query.push(`${k} = '${v}'`)
             }
@@ -106,7 +106,7 @@ router.post(
                 res.status(200).json({ msg: "Usuario editado" })
             } catch (error) {
                 console.log(error);
-                res.status(500).json({ msg: error.message })
+                res.status(500).json({ msg: (error as Error).message })
             } finally {
                 CloseConnection(conn)
             }
@@ -125,7 +125,7 @@ router.get(
             res.status(200).json({ usuarios: query["rows"] })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error.message })
+            res.status(500).json({ msg: (error as Error).message })
         } finally {
             CloseConnection(conn)
         }
@@ -151,7 +151,7 @@ router.get(
             }
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: error.message })
+            res.status(500).json({ msg: (error as Error).message })
         } finally {
             CloseConnection(conn)
         }

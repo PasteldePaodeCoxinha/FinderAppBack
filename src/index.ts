@@ -1,5 +1,5 @@
-require('dotenv').config({path: `${__dirname}\\env`});
-const express = require("express");
+require('dotenv').config({ path: `${__dirname}\\env` });
+import express from "express"
 const cors = require("cors");
 
 const Usuario = require("./rotas/usuario")
