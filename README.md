@@ -181,6 +181,48 @@ RETORNOS:
 }
 ```
 
+## GET UM USUÁRIO
+
+### GET - ROTA: "/usuario/getUmUsuario"
+
+REQUISIÇÃO:
+```
+/usuario/getUmUsuario?id={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "Usuario": {
+        "id": int,
+        "nome": string,
+        "email": string,
+        "senha": string,
+        "datanascimento": string - (yyyy-mm-ddT00:00:00.000Z),
+        "profissao": string,
+        "escolaridade": string,
+        "descricao": string,
+        "imgperfil": string
+      },
+  "msg": "Usuário encontrado"
+}
+```
+
+* 404
+```
+{
+  "msg": "Esse usuário não existe!"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
 # GOSTO <span id="gosto"></span>
 
 ## LISTA

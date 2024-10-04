@@ -178,7 +178,7 @@ router.get(
             if (usuario.length <= 0) {
                 res.status(404).json({ msg: "Esse usuário não existe!" })
             } else if (usuario.length === 1) {
-                res.status(200).json({ idUsuario: usuario[0], msg: "Usuário encontrado" })
+                res.status(200).json({ Usuario: usuario[0], msg: "Usuário encontrado" })
             }
         } catch (error) {
             console.log(error);
