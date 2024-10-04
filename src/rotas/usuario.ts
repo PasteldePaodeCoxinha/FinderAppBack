@@ -164,4 +164,29 @@ router.get(
     }
 )
 
+router.get(
+    "/getUmUsuario",
+    async (req, res) => {
+        const conn = await OpenConnection()
+
+        const id = req.query.id
+
+        try {
+            const queRes = await conn.query(`SELECT * FROM usuario WHERE id=${id}`)
+            const usuario = queRes["rows"]
+
+            if (usuario.length <= 0) {
+                res.status(404).json({ msg: "Esse usuário não existe!" })
+            } else if (usuario.length === 1) {
+                res.status(200).json({ idUsuario: usuario[0], msg: "Usuário encontrado" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: (error as Error).message })
+        } finally {
+            CloseConnection(conn)
+        }
+    }
+)
+
 module.exports = router

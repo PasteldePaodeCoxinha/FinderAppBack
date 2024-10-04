@@ -118,7 +118,6 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const conn = yield (0, database_1.OpenConnection)();
     try {
         const query = yield conn.query(`SELECT * FROM usuario`);
-        console.log(query);
         res.status(200).json({ usuarios: query["rows"] });
     }
     catch (error) {
@@ -141,6 +140,27 @@ router.get("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         else if (usuario.length === 1) {
             res.status(200).json({ idUsuario: usuario[0].id, msg: "Usuário encontrado" });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
+router.get("/getUmUsuario", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const conn = yield (0, database_1.OpenConnection)();
+    const id = req.query.id;
+    try {
+        const queRes = yield conn.query(`SELECT * FROM usuario WHERE id=${id}`);
+        const usuario = queRes["rows"];
+        if (usuario.length <= 0) {
+            res.status(404).json({ msg: "Esse usuário não existe!" });
+        }
+        else if (usuario.length === 1) {
+            res.status(200).json({ idUsuario: usuario[0], msg: "Usuário encontrado" });
         }
     }
     catch (error) {
