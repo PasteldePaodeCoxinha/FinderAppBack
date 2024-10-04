@@ -7,8 +7,6 @@ import { OpenConnection, CloseConnection } from "../config/database"
 router.post(
     "/cadastro",
     async (req, res) => {
-        const conn = await OpenConnection()
-
         const nome = req.body.nome
         const email = req.body.email
         const senha = req.body.senha
@@ -18,7 +16,15 @@ router.post(
         const descricao = req.body.descricao
         const imgperfil = req.body.imgperfil
 
+        const conn = await OpenConnection()
         try {
+            const emailVeri = await conn.query(`SELECT email FROM usuario WHERE email = '${email}'`)
+
+            if (emailVeri.rows.length > 0) {
+                res.status(400).json({msg: "Esse email já existe!"})
+                return
+            }
+
             await conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao, imgperfil) 
                 VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}', '${imgperfil}')`)
 
@@ -121,7 +127,7 @@ router.get(
     async (req, res) => {
         const conn = await OpenConnection()
         try {
-            const query = await conn.query(`SELECT * FROM usuario;`)
+            const query = await conn.query(`SELECT * FROM usuario`)
             res.status(200).json({ usuarios: query["rows"] })
         } catch (error) {
             console.log(error);

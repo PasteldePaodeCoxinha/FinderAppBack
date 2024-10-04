@@ -18,7 +18,6 @@ const database_1 = require("../config/database");
 //
 // POST
 router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const conn = yield (0, database_1.OpenConnection)();
     const nome = req.body.nome;
     const email = req.body.email;
     const senha = req.body.senha;
@@ -27,7 +26,13 @@ router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const escolaridade = req.body.escolaridade;
     const descricao = req.body.descricao;
     const imgperfil = req.body.imgperfil;
+    const conn = yield (0, database_1.OpenConnection)();
     try {
+        const emailVeri = yield conn.query(`SELECT email FROM usuario WHERE email = '${email}'`);
+        if (emailVeri.rows.length > 0) {
+            res.status(400).json({ msg: "Esse email já existe!" });
+            return;
+        }
         yield conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao, imgperfil) 
                 VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}', '${imgperfil}')`);
         const idUsuario = yield conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`);
@@ -112,7 +117,8 @@ router.post("/editar", (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const query = yield conn.query(`SELECT * FROM usuario;`);
+        const query = yield conn.query(`SELECT * FROM usuario`);
+        console.log(query);
         res.status(200).json({ usuarios: query["rows"] });
     }
     catch (error) {
