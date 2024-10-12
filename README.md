@@ -4,6 +4,7 @@
 * [USUARIO](#usuario)
 * [GOSTO](#gosto)
 * [INTERESSE](#interesse)
+* [CURTIR](#curtir)
 
 # USUARIO <span id="usuario"></span>
 
@@ -277,6 +278,36 @@ RETORNOS:
       },
       ...
   ]
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+# CURTIR <span id="curtir"></span>
+
+## Cadastro
+
+### POST - ROTA: "/curtir/cadastro"
+
+REQUISIÇÃO:
+
+```
+{
+  "curtiu": int,
+  "curtido": int
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Cadastrado"
 }
 ```
 
