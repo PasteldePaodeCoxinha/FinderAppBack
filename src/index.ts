@@ -5,6 +5,7 @@ const cors = require("cors");
 const Usuario = require("./rotas/usuario")
 const Gosto = require("./rotas/gosto")
 const Interesse = require("./rotas/interesse")
+const Curtir = require("./rotas/curtir")
 
 const PORT = process.env.PORT || 3001;
 
@@ -28,3 +29,4 @@ app.listen(PORT, () => {
 app.use("/usuario", Usuario)
 app.use("/gosto", Gosto)
 app.use("/interesse", Interesse)
+app.use("/curtir", Curtir)
