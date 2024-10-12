@@ -307,6 +307,10 @@ RETORNOS:
 * 200
 ```
 {
+  "curtir": {
+    "curtiu": int,
+    "curtido": int
+  }
   "msg": "Cadastrado"
 }
 ```

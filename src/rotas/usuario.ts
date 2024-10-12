@@ -21,7 +21,7 @@ router.post(
             const emailVeri = await conn.query(`SELECT email FROM usuario WHERE email = '${email}'`)
 
             if (emailVeri.rows.length > 0) {
-                res.status(400).json({msg: "Esse email já existe!"})
+                res.status(400).json({ msg: "Esse email já existe!" })
                 return
             }
 
@@ -141,11 +141,10 @@ router.get(
 router.get(
     "/login",
     async (req, res) => {
-        const conn = await OpenConnection()
-
         const email = req.query.email
         const senha = req.query.senha
 
+        const conn = await OpenConnection()
         try {
             const queRes = await conn.query(`SELECT id FROM usuario WHERE email='${email}' AND senha='${senha}'`)
             const usuario = queRes["rows"]
@@ -167,10 +166,9 @@ router.get(
 router.get(
     "/getUmUsuario",
     async (req, res) => {
-        const conn = await OpenConnection()
-
         const id = req.query.id
 
+        const conn = await OpenConnection()
         try {
             const queRes = await conn.query(`SELECT * FROM usuario WHERE id=${id}`)
             const usuario = queRes["rows"]

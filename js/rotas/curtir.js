@@ -22,9 +22,27 @@ router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const curtido = req.body.curtido;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        yield conn.query(`INSERT INTO curtir (curtiu, curtido) 
-                VALUES ('${curtiu}', '${curtido}')`);
-        res.status(200).json({ msg: "Cadastrado" });
+        yield conn.query(`INSERT INTO curtir (curtiu, curtido) VALUES ('${curtiu}', '${curtido}')`);
+        const curtir = (yield conn.query(`SELECT curtiu, curtido FROM curtir WHERE curtiu=${curtiu} AND curtido=${curtido}`))["rows"][0];
+        res.status(200).json({ curtir: curtir, msg: "Cadastrado" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
+//
+// GET
+router.get("/match", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const usuario = req.query.idUsuario;
+    const conn = yield (0, database_1.OpenConnection)();
+    try {
+        const listaCurtido = (yield conn.query(`SELECT * FROM curtir WHERE curtido=${usuario}`))["rows"].map(e => e.curtiu);
+        const listCurtiu = (yield conn.query(``));
+        res.status(200).json({ teste: listaCurtido });
     }
     catch (error) {
         console.log(error);

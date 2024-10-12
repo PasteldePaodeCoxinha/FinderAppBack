@@ -129,9 +129,9 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 }));
 router.get("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const conn = yield (0, database_1.OpenConnection)();
     const email = req.query.email;
     const senha = req.query.senha;
+    const conn = yield (0, database_1.OpenConnection)();
     try {
         const queRes = yield conn.query(`SELECT id FROM usuario WHERE email='${email}' AND senha='${senha}'`);
         const usuario = queRes["rows"];
@@ -151,8 +151,8 @@ router.get("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 }));
 router.get("/getUmUsuario", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const conn = yield (0, database_1.OpenConnection)();
     const id = req.query.id;
+    const conn = yield (0, database_1.OpenConnection)();
     try {
         const queRes = yield conn.query(`SELECT * FROM usuario WHERE id=${id}`);
         const usuario = queRes["rows"];
