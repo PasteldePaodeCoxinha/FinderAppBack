@@ -321,3 +321,35 @@ RETORNOS:
   "msg": error
 }
 ```
+
+## Match
+
+### GET - ROTA: "/curtir/match"
+
+REQUISIÇÃO:
+
+```
+/curtir/match?curtiu={int}&curtido={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Match encontrado"
+}
+```
+
+* 204
+```
+{
+  "msg": "Nenhum match"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
