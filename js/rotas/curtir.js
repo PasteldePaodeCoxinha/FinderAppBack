@@ -37,12 +37,17 @@ router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, functio
 //
 // GET
 router.get("/match", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usuario = req.query.idUsuario;
+    const curtiu = req.query.curtiu;
+    const curtido = req.query.curtido;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const listaCurtido = (yield conn.query(`SELECT * FROM curtir WHERE curtido=${usuario}`))["rows"].map(e => e.curtiu);
-        const listCurtiu = (yield conn.query(``));
-        res.status(200).json({ teste: listaCurtido });
+        const match = (yield conn.query(`SELECT * FROM curtir WHERE curtiu=${curtiu} AND curtido=${curtido}`))["rows"];
+        if (match.length > 0) {
+            res.status(200).json({ msg: "Match encontrado" });
+        }
+        else {
+            res.status(204).json({ msg: "Nenhum match" });
+        }
     }
     catch (error) {
         console.log(error);

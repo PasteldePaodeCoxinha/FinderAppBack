@@ -31,15 +31,18 @@ router.post(
 router.get(
     "/match",
     async (req, res) => {
-        const usuario = req.query.idUsuario
+        const curtiu = req.query.curtiu
+        const curtido = req.query.curtido
 
         const conn = await OpenConnection()
         try {
-            const listaCurtido = (await conn.query(`SELECT * FROM curtir WHERE curtido=${usuario}`))["rows"].map(e => e.curtiu)
-
-            const listCurtiu = (await conn.query(``))
-
-            res.status(200).json({teste: listaCurtido})
+            const match = (await conn.query(`SELECT * FROM curtir WHERE curtiu=${curtiu} AND curtido=${curtido}`))["rows"]
+            
+            if (match.length > 0) {
+                res.status(200).json({msg: "Match encontrado"})
+            } else {
+                res.status(204).json({msg: "Nenhum match"})
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: (error as Error).message })
