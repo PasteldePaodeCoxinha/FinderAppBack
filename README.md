@@ -353,3 +353,42 @@ RETORNOS:
   "msg": error
 }
 ```
+
+## Lista Matches
+
+### GET - ROTA: "/curtir/listaMatch"
+
+REQUISIÇÃO:
+
+```
+/curtir/listaMatch?usuarioId={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "matches": [
+    {
+      "id": int,
+      "nome": string,
+      "imgperfil": string
+    }, ...
+  ]
+  "msg": "Lista de matches encontrado"
+}
+```
+
+* 204
+```
+{
+  "msg": "Nenhum match encontrado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```

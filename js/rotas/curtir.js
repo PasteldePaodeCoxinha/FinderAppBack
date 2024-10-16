@@ -57,4 +57,24 @@ router.get("/match", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         (0, database_1.CloseConnection)(conn);
     }
 }));
+router.get("/listaMatch", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const usuarioId = req.query.usuarioId;
+    const conn = yield (0, database_1.OpenConnection)();
+    try {
+        const matches = (yield conn.query(`SELECT DISTINCT u.id, u.nome, u.imgperfil FROM usuario AS u JOIN curtir AS c ON u.id = c.curtido WHERE c.curtiu = ${usuarioId} AND c.curtido IN (SELECT cur.curtiu FROM curtir AS cur WHERE cur.curtido = ${usuarioId})`))["rows"];
+        if (matches.length > 0) {
+            res.status(200).json({ matches: matches, msg: "Lista de matches encontrado" });
+        }
+        else {
+            res.status(204).json({ msg: "Nenhum match encontrado" });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
 module.exports = router;
