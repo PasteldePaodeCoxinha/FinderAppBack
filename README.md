@@ -5,6 +5,7 @@
 * [GOSTO](#gosto)
 * [INTERESSE](#interesse)
 * [CURTIR](#curtir)
+* [CHAT](#chat)
 
 # USUARIO <span id="usuario"></span>
 
@@ -383,6 +384,75 @@ RETORNOS:
 ```
 {
   "msg": "Nenhum match encontrado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+# CHAT <span id="chat"></span>
+
+## Criar Chat
+
+### POST - ROTA: "/chat/criarChat"
+
+REQUISIÇÃO:
+
+```
+{
+  "idUsuario1": int,
+  "idUsuario2": int
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Chat Criado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+## Lista Chats
+
+### GET - ROTA: "/chat/listaChat"
+
+REQUISIÇÃO:
+
+```
+/chat/listaChat?usuarioId={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "chats": [
+    {
+      "id": int,
+      "idUsuario1": int,
+      "idUsuario2": int
+    }, ...
+  ]
+  "msg": "Lista de chats encontrada"
+}
+```
+
+* 204
+```
+{
+  "msg": "Nenhum chat encontrado"
 }
 ```
 
