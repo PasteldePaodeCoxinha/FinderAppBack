@@ -6,6 +6,7 @@
 * [INTERESSE](#interesse)
 * [CURTIR](#curtir)
 * [CHAT](#chat)
+* [MENSAGEM](#mensagem)
 
 # USUARIO <span id="usuario"></span>
 
@@ -453,6 +454,79 @@ RETORNOS:
 ```
 {
   "msg": "Nenhum chat encontrado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+# MENSAGEM <span id="mensagem"></span>
+
+## Criar mensagem
+
+### POST - ROTA: "/mensagem/criarMsg"
+
+REQUISIÇÃO:
+
+```
+{
+  "textMsg": string,
+  "usuarioId": int,
+  "chatId": int
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Mensagem enviada"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+## Lista mensagens
+
+### GET - ROTA: "/mensagem/listaMsg"
+
+REQUISIÇÃO:
+
+```
+/mensagem/listaMsg?chatId={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+	"mensagens": [
+		{
+			"id": int,
+			"textmsg": string,
+			"imgmsg": null,
+			"audmsg": null,
+			"usuario_id": int,
+			"chat_id": int
+		}, ...
+	],
+	"msg": "Lista de mensagens encontrada"
+}
+```
+
+* 204
+```
+{
+  "msg": "Nenhuma mensagem encontrada
 }
 ```
 

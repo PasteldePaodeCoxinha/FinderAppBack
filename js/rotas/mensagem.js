@@ -17,13 +17,14 @@ const router = express_1.default.Router();
 const database_1 = require("../config/database");
 //
 // POST
-router.post("/criarChat", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const idUsuario1 = req.body.idUsuario1;
-    const idUsuario2 = req.body.idUsuario2;
+router.post("/criarMsg", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const textMsg = req.body.textMsg;
+    const usuarioId = req.body.usuarioId;
+    const chatId = req.body.chatId;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        yield conn.query(`INSERT INTO chat(idUsuario1, idUsuario2) VALUES (${idUsuario1}, ${idUsuario2})`);
-        res.status(200).json({ msg: "Chat Criado" });
+        yield conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`);
+        res.status(200).json({ msg: "Mensagem enviada" });
     }
     catch (error) {
         console.log(error);
@@ -35,16 +36,16 @@ router.post("/criarChat", (req, res) => __awaiter(void 0, void 0, void 0, functi
 }));
 //
 // GET
-router.get("/listaChat", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usuarioId = req.query.usuarioId;
+router.get("/listaMsg", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const chatId = req.query.chatId;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const listaChat = (yield conn.query(`SELECT * FROM chat WHERE idUsuario1 = ${usuarioId} OR idUsuario2 = ${usuarioId}`))["rows"];
-        if (listaChat.length > 0) {
-            res.status(200).json({ chats: listaChat, msg: "Lista de chats encontrada" });
+        const listaMsg = (yield conn.query(`SELECT * FROM mensagem WHERE chat_id = ${chatId}`))["rows"];
+        if (listaMsg.length > 0) {
+            res.status(200).json({ mensagens: listaMsg, msg: "Lista de mensagens encontrada" });
         }
         else {
-            res.status(204).json({ msg: "Nenhum chat encontrado" });
+            res.status(204).json({ msg: "Nenhuma mensagem encontrada" });
         }
     }
     catch (error) {
