@@ -41,7 +41,7 @@ router.get("/match", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const curtido = req.query.curtido;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const match = (yield conn.query(`SELECT * FROM curtir WHERE curtiu=${curtiu} AND curtido=${curtido}`))["rows"];
+        const match = (yield conn.query(`SELECT * FROM curtir WHERE curtiu=${curtido} AND curtido=${curtiu}`))["rows"];
         if (match.length > 0) {
             res.status(200).json({ msg: "Match encontrado" });
         }
