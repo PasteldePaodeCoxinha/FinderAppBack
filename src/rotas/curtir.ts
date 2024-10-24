@@ -36,7 +36,7 @@ router.get(
 
         const conn = await OpenConnection()
         try {
-            const match = (await conn.query(`SELECT * FROM curtir WHERE curtiu=${curtiu} AND curtido=${curtido}`))["rows"]
+            const match = (await conn.query(`SELECT * FROM curtir WHERE curtiu=${curtido} AND curtido=${curtiu}`))["rows"]
 
             if (match.length > 0) {
                 res.status(200).json({ msg: "Match encontrado" })
