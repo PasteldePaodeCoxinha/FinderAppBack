@@ -47,4 +47,27 @@ router.get(
     }
 )
 
+router.get(
+    "/pegarUmChat",
+    async(req, res) => {
+        const usuarioId1 = req.query.usuarioId1
+        const usuarioId2 = req.query.usuarioId2
+
+        const conn = await OpenConnection()
+        try {
+            const listaChat = (await conn.query(`SELECT * FROM chat WHERE (idUsuario1 = ${usuarioId1} OR idUsuario1 = ${usuarioId2}) AND (idUsuario2 = ${usuarioId1} OR idUsuario2 = ${usuarioId2})`))["rows"]
+            if (listaChat.length > 0) {
+                res.status(200).json({chat: listaChat[0], msg:"Chat encontrado"})
+            } else {
+                res.status(204).json({msg: "Nenhum chat encontrado"})
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({msg: (error as Error).message})
+        } finally {
+            CloseConnection(conn)
+        }
+    }
+)
+
 module.exports = router

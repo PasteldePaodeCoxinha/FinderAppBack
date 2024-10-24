@@ -464,6 +464,44 @@ RETORNOS:
 }
 ```
 
+## Pegar um chat
+
+### GET - ROTA: "/chat/pegarUmChat"
+
+REQUISIÇÃO:
+
+```
+/chat/pegarUmChat?usuarioId1={int}&usuarioId2={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "chat": 
+    {
+      "id": int,
+      "idUsuario1": int,
+      "idUsuario2": int
+    },
+  "msg": "Chat encontrado"
+}
+```
+
+* 204
+```
+{
+  "msg": "Nenhum chat encontrado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
 # MENSAGEM <span id="mensagem"></span>
 
 ## Criar mensagem
