@@ -115,6 +115,37 @@ RETORNOS:
 }
 ```
 
+## Editar um interesse/gosto de um usuario
+
+### POST - ROTA: "/usuario/editarInteGos"
+
+REQUISIÇÃO:
+
+```
+{
+  "usuario": int,
+  "gostosAntigos": [int, int, ...],
+  "gostos": [string, string, ...],
+  "interesesAntigos": [int, int, ...],
+  "interesses": [string, string, ...]
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Editado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
 ## LISTA
 
 ### GET - ROTA: "/usuario/lista"

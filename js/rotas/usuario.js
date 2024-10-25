@@ -82,6 +82,48 @@ router.post("/associarInteGos", (req, res) => __awaiter(void 0, void 0, void 0, 
         (0, database_1.CloseConnection)(conn);
     }
 }));
+router.post("/editarInteGos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const conn = yield (0, database_1.OpenConnection)();
+    const usuario = req.body.usuario;
+    const gostosAntigos = req.body.gostosAntigos;
+    const gostos = req.body.gostos;
+    const interessesAntigos = req.body.interesesAntigos;
+    const interesses = req.body.interesses;
+    try {
+        let gostosIds = [];
+        let intereIds = [];
+        if (gostos) {
+            const listaGostos = "'" + gostos.join("','") + "'";
+            const gostosQuery = yield conn.query(`SELECT id FROM gosto WHERE nome IN (${listaGostos});`);
+            gostosIds = gostosQuery["rows"].map(g => g.id);
+        }
+        if (interesses) {
+            const listaInteresses = "'" + interesses.join("','") + "'";
+            const interessesQuery = yield conn.query(`SELECT id FROM interesse WHERE nome IN (${listaInteresses});`);
+            intereIds = interessesQuery["rows"].map(g => g.id);
+        }
+        if (gostosIds.length > 0) {
+            const query = `(${usuario},` + gostosIds.join(`),(${usuario},`) + `)`;
+            const listaGosAntigo = gostosAntigos.join(",");
+            yield conn.query(`DELETE FROM gostoUsuario WHERE id in (${listaGosAntigo})`);
+            yield conn.query(`INSERT INTO gostoUsuario(usuario_id, gostos_id) VALUES ${query};`);
+        }
+        if (intereIds.length > 0) {
+            const query = `(${usuario},` + intereIds.join(`),(${usuario},`) + `)`;
+            const listaInteAntigo = interessesAntigos.join(",");
+            yield conn.query(`DELETE FROM gostoUsuario WHERE id in (${listaInteAntigo})`);
+            yield conn.query(`INSERT INTO interesseUsuario(usuario_id, interesse_id) VALUES ${query};`);
+        }
+        res.status(200).json({ msg: "Editado" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
 router.post("/editar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield (0, database_1.OpenConnection)();
     let query = [];
