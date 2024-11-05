@@ -7,6 +7,7 @@
 * [CURTIR](#curtir)
 * [CHAT](#chat)
 * [MENSAGEM](#mensagem)
+* [LOCALIZAÇÃO](#localizacao)
 
 # USUARIO <span id="usuario"></span>
 
@@ -343,7 +344,7 @@ RETORNOS:
   "curtir": {
     "curtiu": int,
     "curtido": int
-  }
+  },
   "msg": "Cadastrado"
 }
 ```
@@ -596,6 +597,84 @@ RETORNOS:
 ```
 {
   "msg": "Nenhuma mensagem encontrada
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+# LOCALIZAÇÃO <span id="localizacao"></span>
+
+## Criar localização
+
+### POST - ROTA: "/localizacao/cadastrar"
+
+REQUISIÇÃO:
+
+```
+{
+	"numero_casa": int,
+  "rua": string,
+  "bairro": string,
+  "cidade": string,
+  "estado": string,
+  "regiao": string,
+  "cep": string
+}
+```
+
+RETORNOS:
+* 200
+```
+{
+  "msg": "Criado"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+## Pegar localização
+
+### GET - ROTA: "/localizacao/lista"
+
+REQUISIÇÃO:
+
+```
+/localizacao/lista?id={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+	"localizacao": {
+			"numero_casa": int,
+      "rua": string,
+      "bairro": string,
+      "cidade": string,
+      "estado": string,
+      "regiao": string,
+      "cep": string,
+      "longi": float,
+      "lati": float
+		},
+	"msg": "Localização encontrada"
+}
+```
+
+* 204
+```
+{
+  "msg": "Localização não encontrada"
 }
 ```
 

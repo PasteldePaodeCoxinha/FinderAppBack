@@ -37,7 +37,7 @@ router.get(
             if (localizacao.length > 0) {
                 res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" })
             } else {
-                res.status(204).json({ msg: "Essa localização não existe" })
+                res.status(204).json({ msg: "Localização não encontrada" })
             }
         } catch (error) {
             console.log(error);

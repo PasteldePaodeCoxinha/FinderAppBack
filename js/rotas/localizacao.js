@@ -45,7 +45,7 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
             res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" });
         }
         else {
-            res.status(204).json({ msg: "Essa localização não existe" });
+            res.status(204).json({ msg: "Localização não encontrada" });
         }
     }
     catch (error) {
