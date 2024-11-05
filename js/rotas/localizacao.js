@@ -23,9 +23,11 @@ router.post("/cadastrar", (req, res) => __awaiter(void 0, void 0, void 0, functi
     const estado = req.body.estado;
     const regiao = req.body.regiao;
     const cep = req.body.cep;
+    const longi = req.body.longi;
+    const lati = req.body.lati;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        conn.query(`INSERT INTO localizacao(numero_casa, rua, bairro, cidade, estado, regiao, cep) VALUES(${numero_casa}, '${rua}', '${bairro}', '${cidade}', '${estado}', '${regiao}', '${cep}')`);
+        conn.query(`INSERT INTO localizacao(numero_casa, rua, bairro, cidade, estado, regiao, cep, longi, lati) VALUES(${numero_casa}, '${rua}', '${bairro}', '${cidade}', '${estado}', '${regiao}', '${cep}', ${longi}, ${lati})`);
         res.status(200).json({ msg: "Criado" });
     }
     catch (error) {

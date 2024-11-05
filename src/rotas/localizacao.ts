@@ -12,10 +12,12 @@ router.post(
         const estado = req.body.estado
         const regiao = req.body.regiao
         const cep = req.body.cep
+        const longi = req.body.longi
+        const lati = req.body.lati
 
         const conn = await OpenConnection()
         try {
-            conn.query(`INSERT INTO localizacao(numero_casa, rua, bairro, cidade, estado, regiao, cep) VALUES(${numero_casa}, '${rua}', '${bairro}', '${cidade}', '${estado}', '${regiao}', '${cep}')`)
+            conn.query(`INSERT INTO localizacao(numero_casa, rua, bairro, cidade, estado, regiao, cep, longi, lati) VALUES(${numero_casa}, '${rua}', '${bairro}', '${cidade}', '${estado}', '${regiao}', '${cep}', ${longi}, ${lati})`)
             res.status(200).json({ msg: "Criado" })
         } catch (error) {
             console.log(error);
