@@ -623,7 +623,10 @@ REQUISIÇÃO:
   "cidade": string,
   "estado": string,
   "regiao": string,
-  "cep": string
+  "cep": string,
+  "longi": float,
+  "lati": float,
+  "usuario_id": int
 }
 ```
 
@@ -665,7 +668,8 @@ RETORNOS:
       "regiao": string,
       "cep": string,
       "longi": float,
-      "lati": float
+      "lati": float,
+      "usuario_id": int
 		},
 	"msg": "Localização encontrada"
 }
