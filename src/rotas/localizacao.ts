@@ -32,11 +32,11 @@ router.post(
 router.get(
     "/lista",
     async (req, res) => {
-        const id = req.query.id
+        const idUsuario = req.query.idUsuario
 
         const conn = await OpenConnection()
         try {
-            const localizacao = (await conn.query(`SELECT * FROM localizacao WHERE id = ${id}`))["rows"]
+            const localizacao = (await conn.query(`SELECT * FROM localizacao WHERE usuario_id = ${idUsuario}`))["rows"]
             if (localizacao.length > 0) {
                 res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" })
             } else {

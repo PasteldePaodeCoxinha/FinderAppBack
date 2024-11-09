@@ -652,7 +652,7 @@ RETORNOS:
 REQUISIÇÃO:
 
 ```
-/localizacao/lista?id={int}
+/localizacao/lista?idUsuario={int}
 ```
 
 RETORNOS:

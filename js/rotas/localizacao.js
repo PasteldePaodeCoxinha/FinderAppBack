@@ -40,10 +40,10 @@ router.post("/cadastrar", (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 }));
 router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.query.id;
+    const idUsuario = req.query.idUsuario;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const localizacao = (yield conn.query(`SELECT * FROM localizacao WHERE id = ${id}`))["rows"];
+        const localizacao = (yield conn.query(`SELECT * FROM localizacao WHERE usuario_id = ${idUsuario}`))["rows"];
         if (localizacao.length > 0) {
             res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" });
         }
