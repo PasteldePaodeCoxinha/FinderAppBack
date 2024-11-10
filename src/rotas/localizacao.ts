@@ -18,7 +18,7 @@ router.post(
 
         const conn = await OpenConnection()
         try {
-            conn.query(`INSERT INTO localizacao(numero_casa, rua, bairro, cidade, estado, regiao, cep, longi, lati, usuario_id) VALUES(${numero_casa}, '${rua}', '${bairro}', '${cidade}', '${estado}', '${regiao}', '${cep}', ${longi}, ${lati}, ${usuarioId})`)
+            await conn.query(`INSERT INTO localizacao(numero_casa, rua, bairro, cidade, estado, regiao, cep, longi, lati, usuario_id) VALUES(${numero_casa}, '${rua}', '${bairro}', '${cidade}', '${estado}', '${regiao}', '${cep}', ${longi}, ${lati}, ${usuarioId})`)
             res.status(200).json({ msg: "Criado" })
         } catch (error) {
             console.log(error);
