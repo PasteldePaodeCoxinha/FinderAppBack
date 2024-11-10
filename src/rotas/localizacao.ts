@@ -37,10 +37,10 @@ router.get(
         const conn = await OpenConnection()
         try {
             const localizacao = (await conn.query(`SELECT * FROM localizacao WHERE usuario_id = ${idUsuario}`))["rows"]
-            if (localizacao.length > 0) {
-                res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" })
+            if (localizacao.length <= 0) {
+                res.status(404).json({ msg: "Localização não encontrada" })
             } else {
-                res.status(204).json({ msg: "Localização não encontrada" })
+                res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" })
             }
         } catch (error) {
             console.log(error);

@@ -44,11 +44,11 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const conn = yield (0, database_1.OpenConnection)();
     try {
         const localizacao = (yield conn.query(`SELECT * FROM localizacao WHERE usuario_id = ${idUsuario}`))["rows"];
-        if (localizacao.length > 0) {
-            res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" });
+        if (localizacao.length <= 0) {
+            res.status(404).json({ msg: "Localização não encontrada" });
         }
         else {
-            res.status(204).json({ msg: "Localização não encontrada" });
+            res.status(200).json({ localizacao: localizacao[0], msg: "Localização encontrada" });
         }
     }
     catch (error) {
