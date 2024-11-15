@@ -56,4 +56,27 @@ router.get("/listaMsg", (req, res) => __awaiter(void 0, void 0, void 0, function
         (0, database_1.CloseConnection)(conn);
     }
 }));
+//
+// GET
+router.get("/novaMsg", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const chatId = req.query.chatId;
+    const usuarioId = req.query.usuarioId;
+    const conn = yield (0, database_1.OpenConnection)();
+    try {
+        const listaMsg = (yield conn.query(`SELECT * FROM mensagem WHERE chat_id = ${chatId} and (idusuario1 = ${usuarioId} or idusuario2 = ${usuarioId})`))["rows"];
+        if (listaMsg.length > 0) {
+            res.status(200).json({ mensagens: listaMsg, msg: "Lista de mensagens encontrada" });
+        }
+        else {
+            res.status(404).json({ msg: "Nenhuma mensagem encontrada" });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
 module.exports = router;
