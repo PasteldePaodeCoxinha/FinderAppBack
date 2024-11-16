@@ -58,7 +58,7 @@ router.get(
 
         const conn = await OpenConnection()
         try {
-            const listaMsg = (await conn.query(`SELECT * FROM mensagem WHERE chat_id = ${chatId} and (idusuario1 = ${usuarioId} or idusuario2 = ${usuarioId})`))["rows"]
+            const listaMsg = (await conn.query(`SELECT * FROM mensagem join chat on chat.id = chat_id WHERE chat_id = ${chatId} and (idusuario1 = ${usuarioId} or idusuario2 = ${usuarioId})`))["rows"]
             if (listaMsg.length > 0) {
                 res.status(200).json({ mensagens: listaMsg, msg: "Lista de mensagens encontrada" })
             } else {
