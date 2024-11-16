@@ -36,7 +36,7 @@ router.get(
             if (listaChat.length > 0) {
                 res.status(200).json({chats: listaChat, msg:"Lista de chats encontrada"})
             } else {
-                res.status(204).json({msg: "Nenhum chat encontrado"})
+                res.status(404).json({msg: "Nenhum chat encontrado"})
             }
         } catch (error) {
             console.log(error);
@@ -59,7 +59,7 @@ router.get(
             if (listaChat.length > 0) {
                 res.status(200).json({chat: listaChat[0], msg:"Chat encontrado"})
             } else {
-                res.status(204).json({msg: "Nenhum chat encontrado"})
+                res.status(404).json({msg: "Nenhum chat encontrado"})
             }
         } catch (error) {
             console.log(error);

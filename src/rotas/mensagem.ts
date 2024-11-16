@@ -37,7 +37,7 @@ router.get(
             if (listaMsg.length > 0) {
                 res.status(200).json({ mensagens: listaMsg, msg: "Lista de mensagens encontrada" })
             } else {
-                res.status(204).json({ msg: "Nenhuma mensagem encontrada" })
+                res.status(404).json({ msg: "Nenhuma mensagem encontrada" })
             }
         } catch (error) {
             console.log(error);

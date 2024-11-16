@@ -41,7 +41,7 @@ router.get(
             if (match.length > 0) {
                 res.status(200).json({ msg: "Match encontrado" })
             } else {
-                res.status(204).json({ msg: "Nenhum match" })
+                res.status(404).json({ msg: "Nenhum match" })
             }
         } catch (error) {
             console.log(error);
@@ -63,7 +63,7 @@ router.get(
             if (matches.length > 0) {
                 res.status(200).json({matches: matches, msg: "Lista de matches encontrado"})
             } else {
-                res.status(204).json({msg: "Nenhum match encontrado"})
+                res.status(404).json({msg: "Nenhum match encontrado"})
             }
         } catch (error) {
             console.log(error);

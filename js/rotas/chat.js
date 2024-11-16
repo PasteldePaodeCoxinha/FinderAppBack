@@ -44,7 +44,7 @@ router.get("/listaChat", (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.status(200).json({ chats: listaChat, msg: "Lista de chats encontrada" });
         }
         else {
-            res.status(204).json({ msg: "Nenhum chat encontrado" });
+            res.status(404).json({ msg: "Nenhum chat encontrado" });
         }
     }
     catch (error) {
@@ -65,7 +65,7 @@ router.get("/pegarUmChat", (req, res) => __awaiter(void 0, void 0, void 0, funct
             res.status(200).json({ chat: listaChat[0], msg: "Chat encontrado" });
         }
         else {
-            res.status(204).json({ msg: "Nenhum chat encontrado" });
+            res.status(404).json({ msg: "Nenhum chat encontrado" });
         }
     }
     catch (error) {
