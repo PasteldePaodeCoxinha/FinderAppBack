@@ -12,8 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OpenConnection = OpenConnection;
-exports.CloseConnection = CloseConnection;
+exports.CloseConnection = exports.OpenConnection = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const pg_1 = __importDefault(require("pg"));
@@ -32,6 +31,8 @@ function OpenConnection() {
         return client;
     });
 }
+exports.OpenConnection = OpenConnection;
 function CloseConnection(conn) {
     conn.release();
 }
+exports.CloseConnection = CloseConnection;

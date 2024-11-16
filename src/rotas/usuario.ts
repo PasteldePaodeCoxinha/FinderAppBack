@@ -114,7 +114,7 @@ router.post(
 
             if (gostosIds.length > 0) {
                 const query = `(${usuario},` + gostosIds.join(`),(${usuario},`) + `)`
-                
+
                 const listaGosAntigo = gostosAntigos.join(",")
 
                 await conn.query(`DELETE FROM gostoUsuario WHERE id in (${listaGosAntigo})`)
@@ -230,6 +230,52 @@ router.get(
                 res.status(404).json({ msg: "Esse usuário não existe!" })
             } else if (usuario.length === 1) {
                 res.status(200).json({ Usuario: usuario[0], msg: "Usuário encontrado" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: (error as Error).message })
+        } finally {
+            CloseConnection(conn)
+        }
+    }
+)
+
+router.get(
+    `/getInteressesUsuario`, async (req, res) => {
+        const usuarioId = req.query.usuarioId
+
+        const conn = await OpenConnection()
+        try {
+            const queRes = await conn.query(`select i.id, i.nome from interesseUsuario as iu inner join interesse as i on iu.interesse_id = i.id where usuario_id = ${usuarioId};`)
+            const interesses = queRes["rows"]
+
+            if (interesses.length <= 0) {
+                res.status(404).json({ msg: "Esse usuário não tem interesses" })
+            } else {
+                res.status(200).json({ Interesses: interesses, msg: "Interesses encontrados" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: (error as Error).message })
+        } finally {
+            CloseConnection(conn)
+        }
+    }
+)
+
+router.get(
+    `/getGostosUsuario`, async (req, res) => {
+        const usuarioId = req.query.usuarioId
+
+        const conn = await OpenConnection()
+        try {
+            const queRes = await conn.query(`select g.id, g.nome from gostoUsuario as gu inner join gosto as g on gu.gostos_id = g.id where usuario_id = ${usuarioId};`)
+            const gostos = queRes["rows"]
+
+            if (gostos.length <= 0) {
+                res.status(404).json({ msg: "Esse usuário não tem gostos" })
+            } else {
+                res.status(200).json({ Gostos: gostos, msg: "Gostos encontrados" })
             }
         } catch (error) {
             console.log(error);

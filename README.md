@@ -258,6 +258,80 @@ RETORNOS:
 }
 ```
 
+## GET INTERESSES USUARIO
+
+### GET - ROTA: "/usuario/getInteressesUsuario"
+
+REQUISIÇÃO:
+```
+/usuario/getInteressesUsuario?usuarioId={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+	"Interesses": [
+		{
+			"id": int,
+			"nome": string
+		}, ...
+	],
+	"msg": "Interesses encontrados"
+}
+```
+
+* 404
+```
+{
+  "msg": "Esse usuário não tem interesses"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
+## GET GOSTOS USUARIO
+
+### GET - ROTA: "/usuario/getGostosUsuario"
+
+REQUISIÇÃO:
+```
+/usuario/getGostosUsuario?usuarioId={int}
+```
+
+RETORNOS:
+* 200
+```
+{
+	"Gostos": [
+		{
+			"id": int,
+			"nome": string
+		}, ...
+	],
+	"msg": "Gostos encontrados"
+}
+```
+
+* 404
+```
+{
+  "msg": "Esse usuário não tem gostos"
+}
+```
+
+* 500
+```
+{
+  "msg": error
+}
+```
+
 # GOSTO <span id="gosto"></span>
 
 ## LISTA

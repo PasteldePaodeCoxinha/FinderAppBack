@@ -213,4 +213,46 @@ router.get("/getUmUsuario", (req, res) => __awaiter(void 0, void 0, void 0, func
         (0, database_1.CloseConnection)(conn);
     }
 }));
+router.get(`/getInteressesUsuario`, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const usuarioId = req.query.usuarioId;
+    const conn = yield (0, database_1.OpenConnection)();
+    try {
+        const queRes = yield conn.query(`select i.id, i.nome from interesseUsuario as iu inner join interesse as i on iu.interesse_id = i.id where usuario_id = ${usuarioId};`);
+        const interesses = queRes["rows"];
+        if (interesses.length <= 0) {
+            res.status(404).json({ msg: "Esse usuário não tem interesses" });
+        }
+        else {
+            res.status(200).json({ Interesses: interesses, msg: "Interesses encontrados" });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
+router.get(`/getGostosUsuario`, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const usuarioId = req.query.usuarioId;
+    const conn = yield (0, database_1.OpenConnection)();
+    try {
+        const queRes = yield conn.query(`select g.id, g.nome from gostoUsuario as gu inner join gosto as g on gu.gostos_id = g.id where usuario_id = ${usuarioId};`);
+        const gostos = queRes["rows"];
+        if (gostos.length <= 0) {
+            res.status(404).json({ msg: "Esse usuário não tem gostos" });
+        }
+        else {
+            res.status(200).json({ Gostos: gostos, msg: "Gostos encontrados" });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+    finally {
+        (0, database_1.CloseConnection)(conn);
+    }
+}));
 module.exports = router;
