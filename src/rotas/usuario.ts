@@ -180,7 +180,7 @@ router.get(
     async (req, res) => {
         const conn = await OpenConnection()
         try {
-            const query = await conn.query(`SELECT * FROM usuario`)
+            const query = await conn.query(`SELECT * FROM usuario where visualizar = true`)
             res.status(200).json({ usuarios: query["rows"] })
         } catch (error) {
             console.log(error);
