@@ -62,6 +62,7 @@ REQUISIÇÃO:
   "profissao": string,
   "escolaridade": string,
   "descricao": string
+  "visualizar": boolean
 }
 ```
 
