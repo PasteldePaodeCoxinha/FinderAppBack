@@ -159,7 +159,7 @@ router.post("/editar", (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const query = yield conn.query(`SELECT * FROM usuario`);
+        const query = yield conn.query(`SELECT * FROM usuario where visualizar = true`);
         res.status(200).json({ usuarios: query["rows"] });
     }
     catch (error) {
