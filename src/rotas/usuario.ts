@@ -126,7 +126,7 @@ router.post(
                 const query = `(${usuario},` + intereIds.join(`),(${usuario},`) + `)`
                 const listaInteAntigo = interessesAntigos.join(",")
 
-                await conn.query(`DELETE FROM gostoUsuario WHERE id in (${listaInteAntigo})`)
+                await conn.query(`DELETE FROM interesseUsuario WHERE id in (${listaInteAntigo})`)
                 await conn.query(`INSERT INTO interesseUsuario(usuario_id, interesse_id) VALUES ${query};`)
             }
 

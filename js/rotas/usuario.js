@@ -112,7 +112,7 @@ router.post("/editarInteGos", (req, res) => __awaiter(void 0, void 0, void 0, fu
         if (intereIds.length > 0) {
             const query = `(${usuario},` + intereIds.join(`),(${usuario},`) + `)`;
             const listaInteAntigo = interessesAntigos.join(",");
-            yield conn.query(`DELETE FROM gostoUsuario WHERE id in (${listaInteAntigo})`);
+            yield conn.query(`DELETE FROM interesseUsuario WHERE id in (${listaInteAntigo})`);
             yield conn.query(`INSERT INTO interesseUsuario(usuario_id, interesse_id) VALUES ${query};`);
         }
         res.status(200).json({ msg: "Editado" });
