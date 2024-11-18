@@ -203,10 +203,17 @@ RETORNOS:
 }
 ```
 
+* 400
+```
+{
+  "msg": "Senha incorreta"
+}
+```
+
 * 404
 ```
 {
-  "msg": "Email ou Senha incorretos"
+  "msg": "Email incorreto"
 }
 ```
 

@@ -15,12 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const database_1 = require("../config/database");
+const bcrypt_1 = require("bcrypt");
 //
 // POST
 router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const nome = req.body.nome;
     const email = req.body.email;
-    const senha = req.body.senha;
+    const senha = yield (0, bcrypt_1.hash)(req.body.senha, 8);
     const datanascimento = req.body.datanascimento;
     const profissao = req.body.profissao;
     const escolaridade = req.body.escolaridade;
@@ -175,13 +176,18 @@ router.get("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const senha = req.query.senha;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const queRes = yield conn.query(`SELECT id FROM usuario WHERE email='${email}' AND senha='${senha}'`);
+        const queRes = yield conn.query(`SELECT id, senha FROM usuario WHERE email='${email}'`);
         const usuario = queRes["rows"];
-        if (usuario.length <= 0) {
-            res.status(404).json({ msg: "Email ou Senha incorretos" });
+        if (usuario.length > 0) {
+            if (yield (0, bcrypt_1.compare)(senha, usuario[0].senha)) {
+                res.status(200).json({ idUsuario: usuario[0].id, msg: "Usuário encontrado" });
+            }
+            else {
+                res.status(400).json({ msg: "Senha incorreta" });
+            }
         }
-        else if (usuario.length === 1) {
-            res.status(200).json({ idUsuario: usuario[0].id, msg: "Usuário encontrado" });
+        else {
+            res.status(404).json({ msg: "Email incorreto" });
         }
     }
     catch (error) {

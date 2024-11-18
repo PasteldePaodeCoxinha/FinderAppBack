@@ -1,6 +1,7 @@
 import express from "express"
 const router = express.Router();
 import { OpenConnection, CloseConnection } from "../config/database"
+import { compare, hash } from "bcrypt";
 
 //
 // POST
@@ -9,7 +10,7 @@ router.post(
     async (req, res) => {
         const nome = req.body.nome
         const email = req.body.email
-        const senha = req.body.senha
+        const senha = await hash(req.body.senha as string, 8)
         const datanascimento = req.body.datanascimento
         const profissao = req.body.profissao
         const escolaridade = req.body.escolaridade
@@ -195,17 +196,21 @@ router.get(
     "/login",
     async (req, res) => {
         const email = req.query.email
-        const senha = req.query.senha
+        const senha = req.query.senha as string
 
         const conn = await OpenConnection()
         try {
-            const queRes = await conn.query(`SELECT id FROM usuario WHERE email='${email}' AND senha='${senha}'`)
+            const queRes = await conn.query(`SELECT id, senha FROM usuario WHERE email='${email}'`)
             const usuario = queRes["rows"]
 
-            if (usuario.length <= 0) {
-                res.status(404).json({ msg: "Email ou Senha incorretos" })
-            } else if (usuario.length === 1) {
-                res.status(200).json({ idUsuario: usuario[0].id, msg: "Usuário encontrado" })
+            if (usuario.length > 0) {
+                if (await compare(senha, usuario[0].senha)) {
+                    res.status(200).json({ idUsuario: usuario[0].id, msg: "Usuário encontrado" })
+                } else {
+                    res.status(400).json({ msg: "Senha incorreta" })
+                }
+            } else {
+                res.status(404).json({ msg: "Email incorreto" })
             }
         } catch (error) {
             console.log(error);
