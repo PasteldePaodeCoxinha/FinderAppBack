@@ -3,6 +3,45 @@ const router = express.Router();
 import { OpenConnection, CloseConnection } from "../config/database"
 import { compare, hash } from "bcrypt";
 
+
+async function getInteresses(usuarioId: number | string) {
+    const conn = await OpenConnection();
+    try {
+        const queryInteresses = await conn.query(`
+                select i.id, i.nome
+                    from interesseUsuario as iu
+                        inner join interesse as i on iu.interesse_id = i.id
+                    where usuario_id = ${usuarioId};`);
+        const interesses = queryInteresses["rows"];
+        return interesses;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        CloseConnection(conn);
+    }
+
+    return [];
+}
+
+async function getGostos(usuarioId: number | string) {
+    const conn = await OpenConnection();
+    try {
+        const queryGostos = await conn.query(`
+            select g.id, g.nome
+                from gostoUsuario as gu
+                    inner join gosto as g on gu.gostos_id = g.id
+                where usuario_id = ${usuarioId};`);
+        const gostos = queryGostos["rows"];
+        return gostos;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        CloseConnection(conn);
+    }
+
+    return [];
+}
+
 //
 // POST
 router.post(
@@ -179,15 +218,37 @@ router.post(
 router.get(
     "/lista",
     async (req, res) => {
-        const conn = await OpenConnection()
+        const usuarioId = req.query.usuarioId;
+
+        const conn = await OpenConnection();
         try {
-            const query = await conn.query(`SELECT * FROM usuario where visualizar = true`)
-            res.status(200).json({ usuarios: query["rows"] })
+            const queryUsuarios = await conn.query(`SELECT * FROM usuario where visualizar = true;`);
+            const usuarios: any[] = queryUsuarios["rows"];
+
+            if (usuarioId == undefined) {
+                res.status(200).json({ usuarios: queryUsuarios["rows"] });
+                return;
+            }
+
+            const interessesUsuario: any[] = await getInteresses(usuarioId as string);
+            const gostosUsuario: any[] = await getGostos(usuarioId as string);
+            for (let i = 0; i < usuarios.length; i++) {
+                const interesses: any[] = await getInteresses(usuarios[i].id);
+                const gostos: any[] = await getGostos(usuarios[i].id);
+
+                const interessesEmComum = interesses.filter(interesse => interessesUsuario.includes(interesse));
+                const gostosEmComum = gostos.filter(gosto => gostosUsuario.includes(gosto));
+
+                const pontos = interessesEmComum.length + gostosEmComum.length;
+                usuarios[i].pontos = pontos;
+            }
+
+            res.status(200).json({ usuarios: usuarios.sort((a: any, b: any) => a.pontos - b.pontos) });
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: (error as Error).message })
+            res.status(500).json({ msg: (error as Error).message });
         } finally {
-            CloseConnection(conn)
+            CloseConnection(conn);
         }
     }
 )

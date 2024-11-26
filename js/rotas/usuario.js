@@ -16,6 +16,48 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const database_1 = require("../config/database");
 const bcrypt_1 = require("bcrypt");
+function getInteresses(usuarioId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const conn = yield (0, database_1.OpenConnection)();
+        try {
+            const queryInteresses = yield conn.query(`
+                select i.id, i.nome
+                    from interesseUsuario as iu
+                        inner join interesse as i on iu.interesse_id = i.id
+                    where usuario_id = ${usuarioId};`);
+            const interesses = queryInteresses["rows"];
+            return interesses;
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            (0, database_1.CloseConnection)(conn);
+        }
+        return [];
+    });
+}
+function getGostos(usuarioId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const conn = yield (0, database_1.OpenConnection)();
+        try {
+            const queryGostos = yield conn.query(`
+            select g.id, g.nome
+                from gostoUsuario as gu
+                    inner join gosto as g on gu.gostos_id = g.id
+                where usuario_id = ${usuarioId};`);
+            const gostos = queryGostos["rows"];
+            return gostos;
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            (0, database_1.CloseConnection)(conn);
+        }
+        return [];
+    });
+}
 //
 // POST
 router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -158,10 +200,26 @@ router.post("/editar", (req, res) => __awaiter(void 0, void 0, void 0, function*
 //
 // GET
 router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const usuarioId = req.query.usuarioId;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        const query = yield conn.query(`SELECT * FROM usuario where visualizar = true`);
-        res.status(200).json({ usuarios: query["rows"] });
+        const queryUsuarios = yield conn.query(`SELECT * FROM usuario where visualizar = true;`);
+        const usuarios = queryUsuarios["rows"];
+        if (usuarioId == undefined) {
+            res.status(200).json({ usuarios: queryUsuarios["rows"] });
+            return;
+        }
+        const interessesUsuario = yield getInteresses(usuarioId);
+        const gostosUsuario = yield getGostos(usuarioId);
+        for (let i = 0; i < usuarios.length; i++) {
+            const interesses = yield getInteresses(usuarios[i].id);
+            const gostos = yield getGostos(usuarios[i].id);
+            const interessesEmComum = interesses.filter(interesse => interessesUsuario.includes(interesse));
+            const gostosEmComum = gostos.filter(gosto => gostosUsuario.includes(gosto));
+            const pontos = interessesEmComum.length + gostosEmComum.length;
+            usuarios[i].pontos = pontos;
+        }
+        res.status(200).json({ usuarios: usuarios.sort((a, b) => a.pontos - b.pontos) });
     }
     catch (error) {
         console.log(error);
