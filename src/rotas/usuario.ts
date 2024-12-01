@@ -246,7 +246,9 @@ router.get(
                 usuarios[i].pontos = pontos;
             }
 
-            res.status(200).json({ usuarios: usuarios.sort((a: any, b: any) => a.pontos - b.pontos) });
+            res.status(200).json({
+                usuarios: usuarioId != undefined ? usuarios.sort((a: any, b: any) => b.pontos - a.pontos) : usuarios
+            });
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: (error as Error).message });
