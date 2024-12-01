@@ -147,14 +147,18 @@ router.post("/editarInteGos", (req, res) => __awaiter(void 0, void 0, void 0, fu
         }
         if (gostosIds.length > 0) {
             const query = `(${usuario},` + gostosIds.join(`),(${usuario},`) + `)`;
-            const listaGosAntigo = gostosAntigos.join(",");
-            yield conn.query(`DELETE FROM gostoUsuario WHERE gostos_id in (${listaGosAntigo})`);
+            if (gostosAntigos != undefined && gostosAntigos.length > 0) {
+                const listaGosAntigo = gostosAntigos.join(",");
+                yield conn.query(`DELETE FROM gostoUsuario WHERE gostos_id in (${listaGosAntigo})`);
+            }
             yield conn.query(`INSERT INTO gostoUsuario(usuario_id, gostos_id) VALUES ${query};`);
         }
         if (intereIds.length > 0) {
             const query = `(${usuario},` + intereIds.join(`),(${usuario},`) + `)`;
-            const listaInteAntigo = interessesAntigos.join(",");
-            yield conn.query(`DELETE FROM interesseUsuario WHERE interesse_id in (${listaInteAntigo})`);
+            if (interessesAntigos != undefined && interessesAntigos.length > 0) {
+                const listaInteAntigo = interessesAntigos.join(",");
+                yield conn.query(`DELETE FROM interesseUsuario WHERE interesse_id in (${listaInteAntigo})`);
+            }
             yield conn.query(`INSERT INTO interesseUsuario(usuario_id, interesse_id) VALUES ${query};`);
         }
         res.status(200).json({ msg: "Editado" });

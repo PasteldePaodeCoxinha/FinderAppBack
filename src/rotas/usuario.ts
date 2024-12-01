@@ -154,19 +154,21 @@ router.post(
 
             if (gostosIds.length > 0) {
                 const query = `(${usuario},` + gostosIds.join(`),(${usuario},`) + `)`
-                
-                const listaGosAntigo = (gostosAntigos as number[]).join(",")
 
-                await conn.query(`DELETE FROM gostoUsuario WHERE gostos_id in (${listaGosAntigo})`)
+                if (gostosAntigos != undefined && gostosAntigos.length > 0) {
+                    const listaGosAntigo = (gostosAntigos as number[]).join(",")
+                    await conn.query(`DELETE FROM gostoUsuario WHERE gostos_id in (${listaGosAntigo})`)
+                }
                 await conn.query(`INSERT INTO gostoUsuario(usuario_id, gostos_id) VALUES ${query};`)
             }
 
             if (intereIds.length > 0) {
                 const query = `(${usuario},` + intereIds.join(`),(${usuario},`) + `)`
 
-                const listaInteAntigo = (interessesAntigos as number[]).join(",")
-
-                await conn.query(`DELETE FROM interesseUsuario WHERE interesse_id in (${listaInteAntigo})`)
+                if (interessesAntigos != undefined && interessesAntigos.length > 0) {
+                    const listaInteAntigo = (interessesAntigos as number[]).join(",")
+                    await conn.query(`DELETE FROM interesseUsuario WHERE interesse_id in (${listaInteAntigo})`)
+                }
                 await conn.query(`INSERT INTO interesseUsuario(usuario_id, interesse_id) VALUES ${query};`)
             }
 
