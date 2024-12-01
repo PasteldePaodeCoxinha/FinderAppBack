@@ -218,8 +218,8 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         for (let i = 0; i < usuarios.length; i++) {
             const interesses = yield getInteresses(usuarios[i].id);
             const gostos = yield getGostos(usuarios[i].id);
-            const interessesEmComum = interesses.filter(interesse => interessesUsuario.includes(interesse));
-            const gostosEmComum = gostos.filter(gosto => gostosUsuario.includes(gosto));
+            const interessesEmComum = interesses.map(i => i.id).filter(interesse => interessesUsuario.map(i => i.id).includes(interesse));
+            const gostosEmComum = gostos.map(g => g.id).filter(gosto => gostosUsuario.map(g => g.id).includes(gosto));
             const pontos = interessesEmComum.length + gostosEmComum.length;
             usuarios[i].pontos = pontos;
         }

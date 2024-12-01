@@ -239,8 +239,8 @@ router.get(
                 const interesses: any[] = await getInteresses(usuarios[i].id);
                 const gostos: any[] = await getGostos(usuarios[i].id);
 
-                const interessesEmComum = interesses.filter(interesse => interessesUsuario.includes(interesse));
-                const gostosEmComum = gostos.filter(gosto => gostosUsuario.includes(gosto));
+                const interessesEmComum = interesses.map(i => i.id).filter(interesse => interessesUsuario.map(i => i.id).includes(interesse));
+                const gostosEmComum = gostos.map(g => g.id).filter(gosto => gostosUsuario.map(g => g.id).includes(gosto));
 
                 const pontos = interessesEmComum.length + gostosEmComum.length;
                 usuarios[i].pontos = pontos;
