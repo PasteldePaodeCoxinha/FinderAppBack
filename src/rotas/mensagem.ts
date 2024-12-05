@@ -14,7 +14,7 @@ router.post(
 
         const conn = await OpenConnection()
         try {
-            if (audMsg == undefined)
+            if (!audMsg || audMsg == undefined)
                 await conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`)
             else await conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`)
             res.status(200).json({ msg: "Mensagem enviada" })

@@ -24,7 +24,7 @@ router.post("/criarMsg", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const chatId = req.body.chatId;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        if (audMsg == undefined)
+        if (!audMsg || audMsg == undefined)
             yield conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`);
         else
             yield conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`);
