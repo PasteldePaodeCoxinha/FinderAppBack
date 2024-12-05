@@ -7,7 +7,7 @@ import { OpenConnection, CloseConnection } from "../config/database"
 router.post(
     "/criarMsg",
     async (req, res) => {
-        const audMsg = req.body.audMsg
+        const audMsg = req.body.audMsg == undefined ? null : req.body.audMsg;
         const textMsg = req.body.textMsg
         const usuarioId = req.body.usuarioId
         const chatId = req.body.chatId

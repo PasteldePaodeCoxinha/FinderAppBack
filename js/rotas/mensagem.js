@@ -18,7 +18,7 @@ const database_1 = require("../config/database");
 //
 // POST
 router.post("/criarMsg", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const audMsg = req.body.audMsg;
+    const audMsg = req.body.audMsg == undefined ? null : req.body.audMsg;
     const textMsg = req.body.textMsg;
     const usuarioId = req.body.usuarioId;
     const chatId = req.body.chatId;
