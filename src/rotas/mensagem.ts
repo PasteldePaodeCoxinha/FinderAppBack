@@ -7,13 +7,14 @@ import { OpenConnection, CloseConnection } from "../config/database"
 router.post(
     "/criarMsg",
     async (req, res) => {
+        const audMsg = req.body.audMsg
         const textMsg = req.body.textMsg
         const usuarioId = req.body.usuarioId
         const chatId = req.body.chatId
 
         const conn = await OpenConnection()
         try {
-            await conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`)
+            await conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`)
             res.status(200).json({ msg: "Mensagem enviada" })
         } catch (error) {
             console.log(error);
