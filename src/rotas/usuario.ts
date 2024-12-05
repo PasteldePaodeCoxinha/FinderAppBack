@@ -6,40 +6,42 @@ import { compare, hash } from "bcrypt";
 
 async function getInteresses(usuarioId: number | string) {
     const conn = await OpenConnection();
+
+    let interesses = [];
     try {
         const queryInteresses = await conn.query(`
                 select i.id, i.nome
                     from interesseUsuario as iu
                         inner join interesse as i on iu.interesse_id = i.id
                     where usuario_id = ${usuarioId};`);
-        const interesses = queryInteresses["rows"];
-        return interesses;
+        interesses = queryInteresses["rows"];
     } catch (error) {
         console.log(error);
     } finally {
         CloseConnection(conn);
     }
-
-    return [];
+    
+    return interesses;
 }
 
 async function getGostos(usuarioId: number | string) {
     const conn = await OpenConnection();
+
+    let gostos = [];
     try {
         const queryGostos = await conn.query(`
             select g.id, g.nome
                 from gostoUsuario as gu
                     inner join gosto as g on gu.gostos_id = g.id
                 where usuario_id = ${usuarioId};`);
-        const gostos = queryGostos["rows"];
-        return gostos;
+        gostos = queryGostos["rows"];
     } catch (error) {
         console.log(error);
     } finally {
         CloseConnection(conn);
     }
 
-    return [];
+    return gostos;
 }
 
 //
