@@ -28,10 +28,10 @@ function OpenConnection() {
             port: 5432,
             ssl: true
         });
-        const client = yield pool.connect();
+        const client = yield pool;
         return client;
     });
 }
 function CloseConnection(conn) {
-    conn.release();
+    conn.end();
 }

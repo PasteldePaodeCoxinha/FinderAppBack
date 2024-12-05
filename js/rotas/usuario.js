@@ -19,14 +19,14 @@ const bcrypt_1 = require("bcrypt");
 function getInteresses(usuarioId) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.OpenConnection)();
+        let interesses = [];
         try {
             const queryInteresses = yield conn.query(`
                 select i.id, i.nome
                     from interesseUsuario as iu
                         inner join interesse as i on iu.interesse_id = i.id
                     where usuario_id = ${usuarioId};`);
-            const interesses = queryInteresses["rows"];
-            return interesses;
+            interesses = queryInteresses["rows"];
         }
         catch (error) {
             console.log(error);
@@ -34,20 +34,20 @@ function getInteresses(usuarioId) {
         finally {
             (0, database_1.CloseConnection)(conn);
         }
-        return [];
+        return interesses;
     });
 }
 function getGostos(usuarioId) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.OpenConnection)();
+        let gostos = [];
         try {
             const queryGostos = yield conn.query(`
             select g.id, g.nome
                 from gostoUsuario as gu
                     inner join gosto as g on gu.gostos_id = g.id
                 where usuario_id = ${usuarioId};`);
-            const gostos = queryGostos["rows"];
-            return gostos;
+            gostos = queryGostos["rows"];
         }
         catch (error) {
             console.log(error);
@@ -55,7 +55,7 @@ function getGostos(usuarioId) {
         finally {
             (0, database_1.CloseConnection)(conn);
         }
-        return [];
+        return gostos;
     });
 }
 //
