@@ -18,13 +18,16 @@ const database_1 = require("../config/database");
 //
 // POST
 router.post("/criarMsg", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const audMsg = req.body.audMsg == undefined ? null : req.body.audMsg;
+    const audMsg = req.body.audMsg;
     const textMsg = req.body.textMsg;
     const usuarioId = req.body.usuarioId;
     const chatId = req.body.chatId;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        yield conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`);
+        if (audMsg == undefined)
+            yield conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`);
+        else
+            yield conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`);
         res.status(200).json({ msg: "Mensagem enviada" });
     }
     catch (error) {
