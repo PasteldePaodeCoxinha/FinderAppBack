@@ -3,7 +3,7 @@ dotenv.config()
 import pg from "pg"
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 
-export async function OpenConnection(): Promise<pg.PoolClient> {
+export async function OpenConnection(): Promise<pg.Pool> {
     const pool = new pg.Pool({
         host: PGHOST,
         database: PGDATABASE,
@@ -12,11 +12,11 @@ export async function OpenConnection(): Promise<pg.PoolClient> {
         port: 5432,
         ssl: true
     });
-    const client = await pool.connect();
+    const client = await pool;
     return client
 
 }
 
-export function CloseConnection(conn: pg.PoolClient) {
-    conn.release()
+export function CloseConnection(conn: pg.Pool) {
+    conn.end()
 }
