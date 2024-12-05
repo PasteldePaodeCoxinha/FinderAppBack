@@ -17,15 +17,15 @@ router.post(
         try {
             let campos: Array<string> = [];
             let valores: Array<string> = [];
-            if (!audMsg || audMsg == undefined) {
+            if (audMsg && audMsg != undefined) {
                 campos.push("audMsg");
                 valores.push(`'${audMsg}'`);
             }
-            if (!textMsg || textMsg == undefined) {
+            if (textMsg && textMsg != undefined) {
                 campos.push("textMsg");
                 valores.push(`'${textMsg}'`);
             }
-            if (!imgMsg || imgMsg == undefined) {
+            if (imgMsg && imgMsg != undefined) {
                 campos.push("imgMsg");
                 valores.push(`'${imgMsg}'`);
             }

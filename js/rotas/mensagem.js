@@ -27,15 +27,15 @@ router.post("/criarMsg", (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         let campos = [];
         let valores = [];
-        if (!audMsg || audMsg == undefined) {
+        if (audMsg && audMsg != undefined) {
             campos.push("audMsg");
             valores.push(`'${audMsg}'`);
         }
-        if (!textMsg || textMsg == undefined) {
+        if (textMsg && textMsg != undefined) {
             campos.push("textMsg");
             valores.push(`'${textMsg}'`);
         }
-        if (!imgMsg || imgMsg == undefined) {
+        if (imgMsg && imgMsg != undefined) {
             campos.push("imgMsg");
             valores.push(`'${imgMsg}'`);
         }
