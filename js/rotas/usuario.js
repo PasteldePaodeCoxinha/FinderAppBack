@@ -211,21 +211,22 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const usuarios = queryUsuarios["rows"];
         if (usuarioId == undefined) {
             res.status(200).json({ usuarios: queryUsuarios["rows"] });
-            return;
         }
-        const interessesUsuario = yield getInteresses(usuarioId);
-        const gostosUsuario = yield getGostos(usuarioId);
-        for (let i = 0; i < usuarios.length; i++) {
-            const interesses = yield getInteresses(usuarios[i].id);
-            const gostos = yield getGostos(usuarios[i].id);
-            const interessesEmComum = interesses.map(i => i.id).filter(interesse => interessesUsuario.map(i => i.id).includes(interesse));
-            const gostosEmComum = gostos.map(g => g.id).filter(gosto => gostosUsuario.map(g => g.id).includes(gosto));
-            const pontos = interessesEmComum.length + gostosEmComum.length;
-            usuarios[i].pontos = pontos;
+        else {
+            const interessesUsuario = yield getInteresses(usuarioId);
+            const gostosUsuario = yield getGostos(usuarioId);
+            for (let i = 0; i < usuarios.length; i++) {
+                const interesses = yield getInteresses(usuarios[i].id);
+                const gostos = yield getGostos(usuarios[i].id);
+                const interessesEmComum = interesses.map(i => i.id).filter(interesse => interessesUsuario.map(i => i.id).includes(interesse));
+                const gostosEmComum = gostos.map(g => g.id).filter(gosto => gostosUsuario.map(g => g.id).includes(gosto));
+                const pontos = interessesEmComum.length + gostosEmComum.length;
+                usuarios[i].pontos = pontos;
+            }
+            res.status(200).json({
+                usuarios: usuarioId != undefined ? usuarios.sort((a, b) => b.pontos - a.pontos) : usuarios
+            });
         }
-        res.status(200).json({
-            usuarios: usuarioId != undefined ? usuarios.sort((a, b) => b.pontos - a.pontos) : usuarios
-        });
     }
     catch (error) {
         console.log(error);

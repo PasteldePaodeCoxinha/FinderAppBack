@@ -20,7 +20,7 @@ async function getInteresses(usuarioId: number | string) {
     } finally {
         CloseConnection(conn);
     }
-    
+
     return interesses;
 }
 
@@ -232,25 +232,25 @@ router.get(
 
             if (usuarioId == undefined) {
                 res.status(200).json({ usuarios: queryUsuarios["rows"] });
-                return;
             }
+            else {
+                const interessesUsuario: any[] = await getInteresses(usuarioId as string);
+                const gostosUsuario: any[] = await getGostos(usuarioId as string);
+                for (let i = 0; i < usuarios.length; i++) {
+                    const interesses: any[] = await getInteresses(usuarios[i].id);
+                    const gostos: any[] = await getGostos(usuarios[i].id);
 
-            const interessesUsuario: any[] = await getInteresses(usuarioId as string);
-            const gostosUsuario: any[] = await getGostos(usuarioId as string);
-            for (let i = 0; i < usuarios.length; i++) {
-                const interesses: any[] = await getInteresses(usuarios[i].id);
-                const gostos: any[] = await getGostos(usuarios[i].id);
+                    const interessesEmComum = interesses.map(i => i.id).filter(interesse => interessesUsuario.map(i => i.id).includes(interesse));
+                    const gostosEmComum = gostos.map(g => g.id).filter(gosto => gostosUsuario.map(g => g.id).includes(gosto));
 
-                const interessesEmComum = interesses.map(i => i.id).filter(interesse => interessesUsuario.map(i => i.id).includes(interesse));
-                const gostosEmComum = gostos.map(g => g.id).filter(gosto => gostosUsuario.map(g => g.id).includes(gosto));
+                    const pontos = interessesEmComum.length + gostosEmComum.length;
+                    usuarios[i].pontos = pontos;
+                }
 
-                const pontos = interessesEmComum.length + gostosEmComum.length;
-                usuarios[i].pontos = pontos;
+                res.status(200).json({
+                    usuarios: usuarioId != undefined ? usuarios.sort((a: any, b: any) => b.pontos - a.pontos) : usuarios
+                });
             }
-
-            res.status(200).json({
-                usuarios: usuarioId != undefined ? usuarios.sort((a: any, b: any) => b.pontos - a.pontos) : usuarios
-            });
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: (error as Error).message });
