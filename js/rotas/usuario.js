@@ -76,8 +76,8 @@ router.post("/cadastro", (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.status(400).json({ msg: "Esse email já existe!" });
             return;
         }
-        yield conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao, imgperfil) 
-                VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}', '${imgperfil}')`);
+        yield conn.query(`INSERT INTO usuario (nome, email, senha, datanascimento, profissao, escolaridade, descricao, imgperfil, visualizar) 
+                VALUES ('${nome}', '${email}', '${senha}', '${datanascimento}', '${profissao}', '${escolaridade}', '${descricao}', '${imgperfil}', true)`);
         const idUsuario = yield conn.query(`SELECT id FROM usuario WHERE nome = '${nome}'`);
         res.status(200).json({ id: idUsuario["rows"][0].id, msg: "Cadastrado" });
     }
