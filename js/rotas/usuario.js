@@ -224,7 +224,7 @@ router.get("/lista", (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 usuarios[i].pontos = pontos;
             }
             res.status(200).json({
-                usuarios: usuarioId != undefined ? usuarios.sort((a, b) => b.pontos - a.pontos) : usuarios
+                usuarios: usuarios.sort((a, b) => b.pontos - a.pontos)
             });
         }
     }
