@@ -20,14 +20,26 @@ const database_1 = require("../config/database");
 router.post("/criarMsg", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const audMsg = req.body.audMsg;
     const textMsg = req.body.textMsg;
+    const imgMsg = req.body.imgMsg;
     const usuarioId = req.body.usuarioId;
     const chatId = req.body.chatId;
     const conn = yield (0, database_1.OpenConnection)();
     try {
-        if (!audMsg || audMsg == undefined)
-            yield conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`);
-        else
-            yield conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`);
+        let campos = [];
+        let valores = [];
+        if (audMsg && audMsg != undefined) {
+            campos.push("audMsg");
+            valores.push(`'${audMsg}'`);
+        }
+        if (textMsg && textMsg != undefined) {
+            campos.push("textMsg");
+            valores.push(`'${textMsg}'`);
+        }
+        if (imgMsg && imgMsg != undefined) {
+            campos.push("imgMsg");
+            valores.push(`'${imgMsg}'`);
+        }
+        yield conn.query(`INSERT INTO mensagem(usuario_id, chat_id, ${campos.join(", ")}) VALUES (${usuarioId}, ${chatId}, ${valores.join(", ")})`);
         res.status(200).json({ msg: "Mensagem enviada" });
     }
     catch (error) {

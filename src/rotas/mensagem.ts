@@ -9,14 +9,28 @@ router.post(
     async (req, res) => {
         const audMsg = req.body.audMsg
         const textMsg = req.body.textMsg
+        const imgMsg = req.body.imgMsg
         const usuarioId = req.body.usuarioId
         const chatId = req.body.chatId
 
         const conn = await OpenConnection()
         try {
-            if (!audMsg || audMsg == undefined)
-                await conn.query(`INSERT INTO mensagem(textMsg, usuario_id, chat_id) VALUES ('${textMsg}', ${usuarioId}, ${chatId})`)
-            else await conn.query(`INSERT INTO mensagem(audMsg, textMsg, usuario_id, chat_id) VALUES ('${audMsg}', '${textMsg}', ${usuarioId}, ${chatId})`)
+            let campos: Array<string> = [];
+            let valores: Array<string> = [];
+            if (audMsg && audMsg != undefined) {
+                campos.push("audMsg");
+                valores.push(`'${audMsg}'`);
+            }
+            if (textMsg && textMsg != undefined) {
+                campos.push("textMsg");
+                valores.push(`'${textMsg}'`);
+            }
+            if (imgMsg && imgMsg != undefined) {
+                campos.push("imgMsg");
+                valores.push(`'${imgMsg}'`);
+            }
+
+            await conn.query(`INSERT INTO mensagem(usuario_id, chat_id, ${campos.join(", ")}) VALUES (${usuarioId}, ${chatId}, ${valores.join(", ")})`)
             res.status(200).json({ msg: "Mensagem enviada" })
         } catch (error) {
             console.log(error);
